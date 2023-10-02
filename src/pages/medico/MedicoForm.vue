@@ -6,7 +6,7 @@
     >
     <q-input
         outlined=""
-        v-model="form.title"
+        v-model="form.nome"
         label="Nome do Médico"
         lazy-rules
         class="col-lg-6 col-xs-12"
@@ -14,18 +14,18 @@
       />
       <q-input
         outlined=""
-        v-model="form.author"
+        v-model="form.crm"
         label="CRM"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
       />
-      <div class="col-lg-12 col-xs-12">
+      <!-- <div class="col-lg-12 col-xs-12">
         <q-editor
         v-model="form.content"
         min-height="5rem"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"/>
-      </div>
+      </div> -->
       <div class="col-12 q-gutter-md">
         <q-btn
         label="Salvar"
@@ -39,7 +39,7 @@
         color="white"
         class="float-right"
         text-color="secondary"
-        :to="{ name: 'home' }"
+        :to="{ name: 'medico-listar' }"
         />
       </div>
     </q-form>
@@ -52,25 +52,24 @@ import medicoService from 'src/services/medicoService'
 import { useQuasar } from 'quasar'
 import { useRouter, useRoute } from 'vue-router'
 export default defineComponent({
-  name: 'FormPost',
+  name: 'MedicoForm',
   setup () {
     const { post, getById, update } = medicoService()
     const $q = useQuasar()
     const router = useRouter()
     const route = useRoute()
     const form = ref({
-      title: '',
-      content: '',
-      author: ''
+      nome: '',
+      crm: ''
     })
 
     onMounted(async () => {
       if (route.params.id) {
-        getPost(route.params.id)
+        getMedico(route.params.id)
       }
     })
 
-    const getPost = async (id) => {
+    const getMedico = async (id) => {
       try {
         const response = await getById(id)
         form.value = response
@@ -87,7 +86,7 @@ export default defineComponent({
           await post(form.value)
         }
         $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
-        router.push({ name: 'home' })
+        router.push({ name: 'medico-listar' })
       } catch (error) {
         console.error(error)
       }
@@ -100,5 +99,3 @@ export default defineComponent({
   }
 })
 </script>
-src/services/medicos
-src/services/medicoService

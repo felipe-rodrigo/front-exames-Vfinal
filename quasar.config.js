@@ -28,7 +28,7 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
-
+      'apexcharts',
       'axios'
     ],
 
@@ -61,7 +61,7 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'history', // available values: 'hash', 'history'
       env: {
         API_URL: ctx.dev
-          ? 'http://localhost:3000'
+          ? 'http://localhost:8080'
           : 'http://localhost:5000'
       }
       // vueRouterBase,
@@ -90,7 +90,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      port: 8080,
+      port: 3000,
       open: true // opens browser window automatically
     },
 
@@ -144,7 +144,7 @@ module.exports = configure(function (ctx) {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      prodPort: 3000, // The default port that the production server should use
+      prodPort: 5000, // The default port that the production server should use
       // (gets superseded if process.env.PORT is specified at runtime)
 
       middlewares: [

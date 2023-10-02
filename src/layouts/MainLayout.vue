@@ -5,13 +5,13 @@
         <q-btn
           dense
           round
-          color="indigo-10"
+          color="primary"
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title class="text-indigo-10 text-bold">
+        <q-toolbar-title class="text-primary text-bold">
           SGE - Sistema de Gestão de Exames
         </q-toolbar-title>
 
@@ -29,8 +29,9 @@
       <q-list>
         <q-item-label
           header
+          style="font-weight: 1000; color: black;"
         >
-          Menu
+          MENU
         </q-item-label>
 
         <EssentialLink
@@ -62,25 +63,25 @@ const linksList = [
     title: 'Exame',
     caption: '',
     icon: 'home',
-    route: { name: 'home' }
+    route: { name: 'exame-listar' }
   },
   {
     title: 'Médico',
     caption: '',
     icon: 'home',
-    route: { name: 'home' }
+    route: { name: 'medico-listar' }
   },
   {
     title: 'Paciente',
     caption: '',
     icon: 'home',
-    route: { name: 'home' }
+    route: { name: 'paciente-listar' }
   },
   {
     title: 'Usuário',
     caption: '',
     icon: 'home',
-    route: { name: 'home' }
+    route: { name: 'usuario-listar' }
   }
 ]
 

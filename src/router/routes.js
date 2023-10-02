@@ -5,31 +5,20 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', name: 'home', component: () => import('pages/IndexPage.vue') },
-      { path: '/medicos', name: 'medicos', component: () => import('src/pages/medico/MedicosPage.vue') },
-      { path: 'form-post/:id?', name: 'formPost', component: () => import('pages/FormPost.vue') },
-      { path: 'form-post/:id?', name: 'formPost', component: () => import('pages/FormPost.vue') },
-      { path: 'form-post/:id?', name: 'formPost', component: () => import('pages/FormPost.vue') }
+      // Rotas Médicos
+      { path: '/medicos', name: 'medico-listar', component: () => import('src/pages/medico/MedicoPage.vue') },
+      { path: '/medicos/adicionar', name: 'medico-adicionar', component: () => import('src/pages/medico/MedicoForm.vue') },
+      // Rotas Exames
+      { path: '/exames', name: 'exame-listar', component: () => import('src/pages/exame/ExamePage.vue') },
+      { path: '/exames/adicionar', name: 'exame-adicionar', component: () => import('src/pages/exame/ExameForm.vue') },
+      // Rotas Pacientes
+      { path: '/pacientes', name: 'paciente-listar', component: () => import('src/pages/paciente/PacientePage.vue') },
+      { path: '/pacientes/adicionar', name: 'paciente-adicionar', component: () => import('src/pages/paciente/PacienteForm.vue') },
+      // Rotas Usuários
+      { path: '/usuarios', name: 'usuario-listar', component: () => import('src/pages/usuario/UsuarioPage.vue') },
+      { path: '/usuarios/adicionar', name: 'usuario-adicionar', component: () => import('src/pages/usuario/UsuarioForm.vue') }
     ]
   },
-  // {
-  //   path: "/medico",
-  //   component: () => import("src/layouts/MainLayout.vue"),
-  //   children: [
-  //     {
-  //       name: "medico-create",
-  //       path: "adicionar",
-  //       component: () => import("pages/medico/MedicoCreate.vue"),
-  //     },
-  //     {
-  //       name: "medico-list",
-  //       path: "listar",
-  //       component: () => import("pages/medico/MedicoList.vue"),
-  //     },
-  //   ],
-  // },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')

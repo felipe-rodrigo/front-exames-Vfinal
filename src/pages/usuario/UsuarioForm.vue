@@ -6,26 +6,26 @@
     >
     <q-input
         outlined=""
-        v-model="form.title"
-        label="Nome do Médico"
+        v-model="form.nome"
+        label="Nome do Usuário"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
       />
-      <q-input
+      <!-- <q-input
         outlined=""
-        v-model="form.author"
-        label="CRM"
+        v-model="form.senha"
+        label="Senha do Usuário"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
-      />
-      <div class="col-lg-12 col-xs-12">
+      /> -->
+      <!-- <div class="col-lg-12 col-xs-12">
         <q-editor
         v-model="form.content"
         min-height="5rem"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"/>
-      </div>
+      </div> -->
       <div class="col-12 q-gutter-md">
         <q-btn
         label="Salvar"
@@ -39,7 +39,7 @@
         color="white"
         class="float-right"
         text-color="secondary"
-        :to="{ name: 'home' }"
+        :to="{ name: 'usuario-listar' }"
         />
       </div>
     </q-form>
@@ -59,9 +59,8 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const form = ref({
-      title: '',
-      content: '',
-      author: ''
+      nome: '',
+      senha: ''
     })
 
     onMounted(async () => {
@@ -87,7 +86,7 @@ export default defineComponent({
           await post(form.value)
         }
         $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
-        router.push({ name: 'home' })
+        router.push({ name: 'usuario-listar' })
       } catch (error) {
         console.error(error)
       }
@@ -100,5 +99,3 @@ export default defineComponent({
   }
 })
 </script>
-src/services/medicos
-src/services/medicoService

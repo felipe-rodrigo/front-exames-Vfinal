@@ -1,7 +1,7 @@
 import useApi from 'src/composables/UseApi'
 
-export default function exameService () {
-  const { list, getById, post, update, remove } = useApi('exames')
+export default function pacienteService () {
+  const { list, getById, post, update, remove } = useApi('pacientes')
 
   return {
     list,

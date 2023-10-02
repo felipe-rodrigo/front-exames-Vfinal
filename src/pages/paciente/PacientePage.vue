@@ -2,21 +2,20 @@
   <q-page padding>
     <q-table
       title="Treats"
-      :rows="medicos"
+      :rows="pacientes"
       :columns="columns"
       row-key="name"
-      dark
       color="amber"
     >
     <template v-slot:top>
-      <span class="text-h4">Médicos</span>
+      <span class="text-h4">Pacientes</span>
       <q-space/>
-      <q-btn color="primary" label="Novo" :to="{ name: 'formPost'}"/>
+      <q-btn color="primary" label="Novo" :to="{ name: 'paciente-adicionar'}"/>
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td :props="props">
-        <q-btn class="q-ma-sm" icon="edit" color="pink-7" dense size="md" @click="handleEditPost(props.row.id)"/>
-        <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeletePost(props.row.id)"/>
+        <q-btn class="q-ma-sm" icon="edit" color="pink-7" dense size="md" @click="handleEditPaciente(props.row.id)"/>
+        <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeletePaciente(props.row.id)"/>
       </q-td>
     </template>
     </q-table>
@@ -25,46 +24,56 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import medicosService from 'src/services/medicoService'
+import pacienteService from 'src/services/pacienteService'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 // import { api } from '../boot/axios'
+import UseApi from 'src/composables/UseApi'
 
 export default defineComponent({
-  name: 'MedicosPage',
+  name: 'PacientePage',
   setup () {
-    const medicos = ref([])
-    const { list, remove } = medicosService()
+    const pacientes = ref([])
+    const { remove } = pacienteService()
     const columns = [
-      { name: 'id', field: 'id', label: 'Id', sortable: true, align: 'left' },
+      { name: 'id', field: 'idPaciente', label: 'Id', sortable: true, align: 'left' },
       { name: 'nome', field: 'nome', label: 'Nome', sortable: true, align: 'left' },
-      { name: 'crm', field: 'crm', label: 'CRM', sortable: true, align: 'left' },
+      { name: 'dataNascimento', field: 'dataNascimento', label: 'Data do Exame', sortable: true, align: 'left' },
+      { name: 'endereco', field: 'endereco', label: 'Endereço', sortable: true, align: 'left' },
+      { name: 'telefone', field: 'telefone', label: 'Telefone', sortable: true, align: 'left' },
+      { name: 'cartaoSus', field: 'cartaoSus', label: 'Cartão SUS', sortable: true, align: 'left' },
       { name: 'actions', field: 'actions', label: 'Ações', sortable: true, align: 'right' }
     ]
     const $q = useQuasar()
     const router = useRouter()
 
     onMounted(() => {
-      getMedicos()
+      getPacientes()
     })
 
     // CARREGA A LISTA DE MÉDICOS QUANDO A PÁGINA É INICIALIZADA
-    const getMedicos = async () => {
+    const getPacientes = async () => {
+      // try {
+      //   const data = await list()
+      //   pacientes.value = data
+      // } catch (error) {
+      //   console.error(error)
+      // }
+      // try {
+      //   const response = await api.get('localhost:3000/pacientess')
+      //   console.log(response)
+      // } catch {
+      // }
       try {
-        const data = await list()
-        medicos.value = data
+        const data = await UseApi('/pacientes/listar').list()
+        pacientes.value = data
+        console.log(data)
       } catch (error) {
         console.error(error)
       }
-      // try {
-      //   const response = await api.get('localhost:3000/medicos')
-      //   console.log(response)
-      // } catch {
-
-      // }
     }
 
-    const handleDeletePost = async (id) => {
+    const handleDeletePaciente = async (id) => {
       try {
         $q.dialog({
           dark: true,
@@ -75,22 +84,22 @@ export default defineComponent({
         }).onOk(async () => {
           await remove(id)
           $q.notify({ message: 'Deletado com sucesso', icon: 'check', color: 'positive' })
-          await getMedicos()
+          await getPacientes()
         })
       } catch (error) {
         $q.notify({ message: 'Erro ao Apagar', icon: 'times', color: 'negative' })
       }
     }
 
-    const handleEditPost = (id) => {
-      router.push({ name: 'medicos', params: { id } })
+    const handleEditPaciente = (id) => {
+      router.push({ name: 'paciente-adicionar', params: { id } })
     }
 
     return {
-      medicos,
+      pacientes,
       columns,
-      handleDeletePost,
-      handleEditPost
+      handleDeletePaciente,
+      handleEditPaciente
     }
   }
 })

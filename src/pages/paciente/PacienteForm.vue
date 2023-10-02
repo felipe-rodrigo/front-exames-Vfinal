@@ -6,26 +6,43 @@
     >
     <q-input
         outlined=""
-        v-model="form.title"
-        label="Nome do Médico"
+        v-model="form.nome"
+        label="Nome do Paciente"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
       />
       <q-input
         outlined=""
-        v-model="form.author"
-        label="CRM"
+        v-model="form.dataNascimentos"
+        label="Data de Nascimento"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
       />
       <div class="col-lg-12 col-xs-12">
         <q-editor
-        v-model="form.content"
+        v-model="form.endereco"
+        label="endereco"
         min-height="5rem"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"/>
       </div>
+      <q-input
+        outlined=""
+        v-model="form.telefone"
+        label="Telefone"
+        lazy-rules
+        class="col-lg-6 col-xs-12"
+        :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
+      />
+      <q-input
+        outlined=""
+        v-model="form.cartaoSus"
+        label="Cartão SUS"
+        lazy-rules
+        class="col-lg-6 col-xs-12"
+        :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
+      />
       <div class="col-12 q-gutter-md">
         <q-btn
         label="Salvar"
@@ -39,7 +56,7 @@
         color="white"
         class="float-right"
         text-color="secondary"
-        :to="{ name: 'home' }"
+        :to="{ name: 'paciente-listar' }"
         />
       </div>
     </q-form>
@@ -48,29 +65,31 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import postsService from 'src/services/medicoService'
+import pacienteService from 'src/services/pacienteService'
 import { useQuasar } from 'quasar'
 import { useRouter, useRoute } from 'vue-router'
 export default defineComponent({
-  name: 'FormPost',
+  name: 'PacienteForm',
   setup () {
-    const { post, getById, update } = postsService()
+    const { post, getById, update } = pacienteService()
     const $q = useQuasar()
     const router = useRouter()
     const route = useRoute()
     const form = ref({
-      title: '',
-      content: '',
-      author: ''
+      nome: '',
+      dataNascimento: '',
+      endereco: '',
+      telefone: '',
+      cartaoSus: ''
     })
 
     onMounted(async () => {
       if (route.params.id) {
-        getPost(route.params.id)
+        getPaciente(route.params.id)
       }
     })
 
-    const getPost = async (id) => {
+    const getPaciente = async (id) => {
       try {
         const response = await getById(id)
         form.value = response
@@ -87,7 +106,7 @@ export default defineComponent({
           await post(form.value)
         }
         $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
-        router.push({ name: 'home' })
+        router.push({ name: 'paciente-listar' })
       } catch (error) {
         console.error(error)
       }
@@ -100,5 +119,3 @@ export default defineComponent({
   }
 })
 </script>
-src/services/medicos
-src/services/medicoService
