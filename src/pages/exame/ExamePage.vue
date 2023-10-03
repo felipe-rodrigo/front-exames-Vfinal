@@ -14,7 +14,7 @@
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td :props="props">
-        <q-btn class="q-ma-sm" icon="edit" color="pink-7" dense size="md" @click="handleEditExame(props.row.id)"/>
+        <q-btn class="q-ma-sm" icon="edit" color="secondary" dense size="md" @click="handleEditExame(props.row.id)"/>
         <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeleteExame(props.row.id)"/>
       </q-td>
     </template>

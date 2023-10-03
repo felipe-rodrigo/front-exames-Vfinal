@@ -1,8 +1,10 @@
 <template>
-  <q-item
+  <div >
+    <q-item
     clickable
     :to="route"
     exact
+    class="my-font"
   >
     <q-item-section
       v-if="icon"
@@ -16,6 +18,8 @@
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
+  <q-separator inset class="q-ma-sm"/>
+  </div>
 </template>
 
 <script>
@@ -46,3 +50,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+
+.my-font {
+  font-family: 'unineue';
+}
+</style>

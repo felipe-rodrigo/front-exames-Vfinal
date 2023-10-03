@@ -16,10 +16,27 @@
         outlined=""
         v-model="form.dataNascimentos"
         label="Data de Nascimento"
+        mask="##/##/####"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
       />
+      <!-- <div>
+         <q-input filled v-model="date" mask="date" :rules="['date']">
+       <template v-slot:append>
+         <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="date">
+               <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+      </div> -->
+
       <div class="col-lg-12 col-xs-12">
         <q-editor
         v-model="form.endereco"
@@ -31,6 +48,8 @@
         outlined=""
         v-model="form.telefone"
         label="Telefone"
+        mask="(##) #### - ####"
+        hint="Preencha da seguinte maneira: (99) 99999-9999"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
@@ -39,6 +58,7 @@
         outlined=""
         v-model="form.cartaoSus"
         label="Cartão SUS"
+        mask=""
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"

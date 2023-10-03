@@ -16,6 +16,7 @@
         outlined=""
         v-model="form.crm"
         label="CRM"
+        mask="###############"
         lazy-rules
         class="col-lg-6 col-xs-12"
         :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
@@ -47,14 +48,15 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
-import medicoService from 'src/services/medicoService'
 import { useQuasar } from 'quasar'
-import { useRouter, useRoute } from 'vue-router'
+import UseApi from 'src/composables/UseApi'
+import medicoService from 'src/services/medicoService'
+import { defineComponent, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'MedicoForm',
   setup () {
-    const { post, getById, update } = medicoService()
+    const { getById } = medicoService()
     const $q = useQuasar()
     const router = useRouter()
     const route = useRoute()
@@ -64,8 +66,14 @@ export default defineComponent({
     })
 
     onMounted(async () => {
-      if (route.params.id) {
-        getMedico(route.params.id)
+      const id = route?.params?.id
+      if (id) {
+        $q.loading.show();
+        medicoService('medicos/listar').getById(id).then((data)=>{
+          form.value.nome = data.nome;
+          form.value.crm = data.crm;
+          $q.loading.hide()
+        });
       }
     })
 
@@ -81,9 +89,14 @@ export default defineComponent({
     const onSubmit = async (id) => {
       try {
         if (form.value.id) {
-          await update(form.value)
+          // await update(form.value)
+          const { data } = await UseApi('/medicos/editar').update(form.value)
+          console.log(data)
         } else {
-          await post(form.value)
+          // await post(form.value)
+          const data = await UseApi('/medicos/adicionar').post(form.value)
+          console.log(data)
+          debugger
         }
         $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
         router.push({ name: 'medico-listar' })
@@ -94,6 +107,7 @@ export default defineComponent({
 
     return {
       form,
+      route,
       onSubmit
     }
   }

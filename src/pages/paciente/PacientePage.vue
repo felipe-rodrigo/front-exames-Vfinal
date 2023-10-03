@@ -1,31 +1,34 @@
+
 <template>
-  <q-page padding>
-    <q-table
-      title="Treats"
-      :rows="pacientes"
-      :columns="columns"
-      row-key="name"
-      color="amber"
-    >
-    <template v-slot:top>
-      <span class="text-h4">Pacientes</span>
-      <q-space/>
-      <q-btn color="primary" label="Novo" :to="{ name: 'paciente-adicionar'}"/>
-    </template>
-    <template v-slot:body-cell-actions="props">
-      <q-td :props="props">
-        <q-btn class="q-ma-sm" icon="edit" color="pink-7" dense size="md" @click="handleEditPaciente(props.row.id)"/>
-        <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeletePaciente(props.row.id)"/>
-      </q-td>
-    </template>
+  <div>
+    <q-page padding>
+      <q-table
+        title="Treats"
+        :rows="pacientes"
+        :columns="columns"
+        row-key="name"
+        color="amber"
+      >
+      <template v-slot:top>
+        <span class="text-h4">Pacientes</span>
+        <q-space/>
+        <q-btn color="primary" label="Novo" :to="{ name: 'paciente-adicionar'}"/>
+      </template>
+      <template v-slot:body-cell-actions="props">
+        <q-td :props="props">
+          <q-btn class="q-ma-sm" icon="edit" color="secondary" dense size="md" @click="handleEditPaciente(props.row.id)"/>
+          <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeletePaciente(props.row.id)"/>
+        </q-td>
+      </template>
     </q-table>
   </q-page>
+  </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
-import pacienteService from 'src/services/pacienteService'
 import { useQuasar } from 'quasar'
+import pacienteService from 'src/services/pacienteService'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import { api } from '../boot/axios'
 import UseApi from 'src/composables/UseApi'
@@ -67,7 +70,7 @@ export default defineComponent({
       try {
         const data = await UseApi('/pacientes/listar').list()
         pacientes.value = data
-        console.log(data)
+        console.log(pacientes.value)
       } catch (error) {
         console.error(error)
       }
@@ -82,6 +85,7 @@ export default defineComponent({
           cancel: true,
           persistent: true
         }).onOk(async () => {
+          console.log('ID PACIENTES: ', id)
           await remove(id)
           $q.notify({ message: 'Deletado com sucesso', icon: 'check', color: 'positive' })
           await getPacientes()
