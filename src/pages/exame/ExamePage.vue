@@ -1,21 +1,36 @@
 <template>
   <q-page padding>
     <q-table
-      title="Treats"
       :rows="exames"
       :columns="columns"
       row-key="name"
       color="amber"
     >
     <template v-slot:top>
-      <span class="text-h4">Exames</span>
+      <div class="largura-total q-pa-md flex items-center">
+        <span class="text-bold my-font text-h4">Exames</span>
       <q-space/>
-      <q-btn color="primary" label="Novo" :to="{ name: 'exame-adicionar'}"/>
+      <q-btn rounded icon="fa-solid fa-plus" class="float-right q-py-md" color="primary" label="Novo" :to="{ name: 'exame-adicionar'}"/>
+      </div>
+      <div class="largura-total">
+        <q-input
+        v-model="search"
+        outlined
+        rounded
+        debounce="500"
+        placeholder="Pesquisas"
+        hint="Faça pesquisas aqui!"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      </div>
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td :props="props">
-        <q-btn class="q-ma-sm" icon="edit" color="secondary" dense size="md" @click="handleEditExame(props.row.id)"/>
-        <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeleteExame(props.row.id)"/>
+        <q-btn class="q-ma-sm" icon="edit" color="secondary" dense size="md" @click="handleEditExame(props.row.idExame)"/>
+        <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="deleteExame(props)"/>
       </q-td>
     </template>
     <template v-slot:body-cell-medico="props">
@@ -36,7 +51,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
 // TODO: modificar as informações para exames
-import exameService from 'src/services/exameService'
+// import exameService from 'src/services/exameService'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 // import { api } from 'src/boot/axios'
@@ -46,7 +61,7 @@ export default defineComponent({
   name: 'ExamePage',
   setup () {
     const exames = ref([])
-    const { remove } = exameService()
+    // const { remove } = exameService()
     const columns = [
       // { name: 'nomeExame', field: 'nomeExame', label: 'Nome do Exame', sortable: true, align: 'left' },
       { name: 'medico', field: 'medico', label: 'Médico Responsável', sortable: true, align: 'left' },
@@ -65,35 +80,15 @@ export default defineComponent({
 
     // CARREGA A LISTA DE MÉDICOS QUANDO A PÁGINA É INICIALIZADA
     const getExames = async () => {
-      // try {
-
-      //   const data = await list()
-      //   exames.value = data
-      // } catch (error) {
-      //   console.error(error)
-      // }
-
       try {
         const data = await UseApi('/exames/listar').list()
         exames.value = data
-        console.log(data)
       } catch (error) {
         console.error(error)
       }
-
-      // UseApi('/exames/listar').list()
-      //   .then((data) => {
-      //     if (!data) {
-      //       return
-      //     }
-      //     exames.value = data
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
     }
 
-    const handleDeleteExame = async (id) => {
+    const deleteExame = async (props) => {
       try {
         $q.dialog({
           dark: true,
@@ -102,9 +97,11 @@ export default defineComponent({
           cancel: true,
           persistent: true
         }).onOk(async () => {
-          await remove(id)
+          // await remove(id)
+          const { data } = await UseApi('exames/deletar').remove(props.row.idExame)
           $q.notify({ message: 'Deletado com sucesso', icon: 'check', color: 'positive' })
           await getExames()
+          return data
         })
       } catch (error) {
         $q.notify({ message: 'Erro ao Apagar', icon: 'times', color: 'negative' })
@@ -118,7 +115,7 @@ export default defineComponent({
     return {
       exames,
       columns,
-      handleDeleteExame,
+      deleteExame,
       handleEditExame
     }
   }

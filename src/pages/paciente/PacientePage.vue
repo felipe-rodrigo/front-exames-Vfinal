@@ -3,21 +3,36 @@
   <div>
     <q-page padding>
       <q-table
-        title="Treats"
         :rows="pacientes"
         :columns="columns"
         row-key="name"
         color="amber"
       >
       <template v-slot:top>
-        <span class="text-h4">Pacientes</span>
-        <q-space/>
-        <q-btn color="primary" label="Novo" :to="{ name: 'paciente-adicionar'}"/>
+        <div class="largura-total q-pa-md flex items-center">
+          <span class="text-bold my-font text-h4">Pacientes</span>
+          <q-space/>
+          <q-btn rounded icon="fa-solid fa-plus" class="float-right q-py-md" color="primary" label="Novo" :to="{ name: 'paciente-adicionar'}"/>
+        </div>
+        <div class="largura-total">
+          <q-input
+          v-model="search"
+          outlined
+          rounded
+          debounce="500"
+          placeholder="Pesquisas"
+          hint="Faça pesquisas aqui!"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        </div>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
           <q-btn class="q-ma-sm" icon="edit" color="secondary" dense size="md" @click="handleEditPaciente(props.row.id)"/>
-          <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="handleDeletePaciente(props.row.id)"/>
+          <q-btn class="q-ma-auto" icon="delete" color="negative" dense size="md" @click="deletePaciente(props)"/>
         </q-td>
       </template>
     </q-table>
@@ -27,7 +42,7 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import pacienteService from 'src/services/pacienteService'
+// import pacienteService from 'src/services/pacienteService'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import { api } from '../boot/axios'
@@ -37,7 +52,7 @@ export default defineComponent({
   name: 'PacientePage',
   setup () {
     const pacientes = ref([])
-    const { remove } = pacienteService()
+    // const { remove } = pacienteService()
     const columns = [
       { name: 'id', field: 'idPaciente', label: 'Id', sortable: true, align: 'left' },
       { name: 'nome', field: 'nome', label: 'Nome', sortable: true, align: 'left' },
@@ -56,17 +71,6 @@ export default defineComponent({
 
     // CARREGA A LISTA DE MÉDICOS QUANDO A PÁGINA É INICIALIZADA
     const getPacientes = async () => {
-      // try {
-      //   const data = await list()
-      //   pacientes.value = data
-      // } catch (error) {
-      //   console.error(error)
-      // }
-      // try {
-      //   const response = await api.get('localhost:3000/pacientess')
-      //   console.log(response)
-      // } catch {
-      // }
       try {
         const data = await UseApi('/pacientes/listar').list()
         pacientes.value = data
@@ -76,7 +80,7 @@ export default defineComponent({
       }
     }
 
-    const handleDeletePaciente = async (id) => {
+    const deletePaciente = async (props) => {
       try {
         $q.dialog({
           dark: true,
@@ -85,10 +89,12 @@ export default defineComponent({
           cancel: true,
           persistent: true
         }).onOk(async () => {
-          console.log('ID PACIENTES: ', id)
-          await remove(id)
+          // console.log('ID PACIENTES: ', id)
+          // await remove(id)
+          const { data } = await UseApi('pacientes/deletar').remove(props.row.idPaciente)
           $q.notify({ message: 'Deletado com sucesso', icon: 'check', color: 'positive' })
           await getPacientes()
+          return data
         })
       } catch (error) {
         $q.notify({ message: 'Erro ao Apagar', icon: 'times', color: 'negative' })
@@ -102,10 +108,9 @@ export default defineComponent({
     return {
       pacientes,
       columns,
-      handleDeletePaciente,
+      deletePaciente,
       handleEditPaciente
     }
   }
 })
 </script>
-src/services/medicoService

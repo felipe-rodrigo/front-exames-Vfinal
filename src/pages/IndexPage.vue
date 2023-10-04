@@ -19,7 +19,8 @@
       </q-td>
     </template>
     </q-table> -->
-    <h2 style="font-weight: 400;">Dashboard</h2>
+    <h2 class="my-font" style="font-weight: 400;">Dashboard</h2>
+    <q-card></q-card>
   <DashBoard></DashBoard>
   </div>
 </template>

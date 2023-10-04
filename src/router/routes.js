@@ -24,6 +24,7 @@ const routes = [
         name: "medico-editar",
         component: () => import("src/pages/medico/MedicoForm.vue"),
       },
+
       // Rotas Exames
       {
         path: "/exames",
@@ -35,6 +36,12 @@ const routes = [
         name: "exame-adicionar",
         component: () => import("src/pages/exame/ExameForm.vue"),
       },
+      {
+        path: "/exames/:id",
+        name: "exame-editar",
+        component: () => import("src/pages/exame/ExameForm.vue"),
+      },
+
       // Rotas Pacientes
       {
         path: "/pacientes",
@@ -44,6 +51,11 @@ const routes = [
       {
         path: "/pacientes/adicionar",
         name: "paciente-adicionar",
+        component: () => import("src/pages/paciente/PacienteForm.vue"),
+      },
+      {
+        path: "/pacientes/:id",
+        name: "paciente-editar",
         component: () => import("src/pages/paciente/PacienteForm.vue"),
       },
       // Rotas Usuários

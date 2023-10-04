@@ -1,16 +1,31 @@
 <template>
-  <q-page padding>
+  <q-page padding class="">
     <q-table
-      title="Treats"
       :rows="medicos"
       :columns="columns"
       row-key="name"
       color="amber"
     >
     <template v-slot:top>
-      <span class="text-h4">Medicos</span>
+      <div class="largura-total q-pa-md flex items-center">
+        <span class="text-bold my-font text-h4">Medicos</span>
       <q-space/>
-      <q-btn color="primary" label="Novo" :to="{ name: 'medico-adicionar'}"/>
+      <q-btn rounded icon="fa-solid fa-plus" class="float-right q-py-md" color="primary" label="Novo" :to="{ name: 'medico-adicionar'}"/>
+      </div>
+      <div class="largura-total">
+        <q-input
+        v-model="search"
+        outlined
+        rounded
+        debounce="500"
+        placeholder="Pesquisas"
+        hint="Faça pesquisas aqui!"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      </div>
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td :props="props">
@@ -19,7 +34,6 @@
       </q-td>
     </template>
     </q-table>
-    {{ "DATA CAIU AQUI " + data }}
   </q-page>
 </template>
 
@@ -55,24 +69,9 @@ export default defineComponent({
       try {
         const data = await UseApi('/medicos/listar').list()
         medicos.value = data
-        console.log('CAIU AQUI ', data)
-        console.log('TAMANHO DO DATA ', data.length())
       } catch (error) {
         console.error(error)
       }
-
-      // try {
-      //   const data = await list()
-      //   debugger
-      //   medicos.value = data
-      // } catch (error) {
-      //   console.error(error)
-      // }
-      // try {
-      //   const response = await api.get('localhost:3000/medicos')
-      //   console.log(response)
-      // } catch {
-      // }
     }
 
     // const deleteMedicos = async () => {

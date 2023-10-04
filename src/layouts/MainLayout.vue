@@ -3,9 +3,8 @@
     <q-header elevated class="primary">
       <q-toolbar>
         <q-btn
-          dense
+          rounded
           flat
-          color="white"
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
@@ -48,7 +47,7 @@
     <q-footer reveal elevated >
         <q-toolbar class="justify-center">
           <div class="row items-center ">
-            <div style="font-size: larger;">&copy;</div><q-toolbar-title class="my-font"> 2023 SGE - Todos os direitos reservados.</q-toolbar-title>
+            <div style="font-size: larger;">&copy;</div><q-toolbar-title style="font-size: larger;" class="my-font"> 2023 SGE - Todos os direitos reservados.</q-toolbar-title>
           </div>
         </q-toolbar>
       </q-footer>
@@ -84,12 +83,12 @@ const linksList = [
     icon: 'fa-solid fa-person',
     route: { name: 'paciente-listar' }
   },
-  {
-    title: 'Usuario',
-    caption: '',
-    icon: 'fa-solid fa-user-lock',
-    route: { name: 'usuario-listar' }
-  }
+  // {
+  //   title: 'Usuario',
+  //   caption: '',
+  //   icon: 'fa-solid fa-user-lock',
+  //   route: { name: 'usuario-listar' }
+  // }
 ]
 
 export default defineComponent({
