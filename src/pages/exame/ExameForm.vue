@@ -41,7 +41,7 @@
           mask="##/##/####"
           class="col-lg-6 col-xs-12"
         >
-          <template v-slot:append>
+          <!-- <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy
                 cover
@@ -55,9 +55,11 @@
                 </q-date>
               </q-popup-proxy>
             </q-icon>
-          </template>
+          </template> -->
         </q-input>
+
         <div class="col-lg-12 col-xs-12">
+          <div>Observação:</div>
           <q-editor
             v-model="form.observacao"
             label="Observação"
@@ -65,21 +67,14 @@
             :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
           />
         </div>
-        <div label="Resultado" class="col-lg-12 col-xs-12">
+        <div class="col-lg-12 col-xs-12">
+          <div>Resultado:</div>
           <q-editor
             v-model="form.resultado"
             min-height="5rem"
             :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
           />
         </div>
-        <!-- <q-input
-        outlined=""
-        v-model="form.resultado"
-        label="Resultado"
-        lazy-rules
-        class="col-lg-6 col-xs-12"
-        :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
-      /> -->
         <div class="col-12 q-gutter-md">
           <q-btn
             rounded
@@ -138,69 +133,66 @@ export default defineComponent({
       return `${dia}/${mes}/${ano}`;
     };
 
+    const id = route?.params?.id;
+
     onMounted(async () => {
-      // if (route.params.id) {
-      //   getPost(route.params.id)
-      // }
-      const id = route?.params?.id;
+      $q.loading.show();
+      await medicoService("medicos/listar")
+        .list()
+        .then((data) => {
+          medicos.value = data;
+          $q.loading.hide();
+        })
+        .catch(() => {
+          $q.loading.hide();
+        });
+
+      $q.loading.show();
+      await pacienteService("pacientes/listar")
+        .list()
+        .then((data) => {
+          pacientes.value = data;
+          $q.loading.hide();
+        })
+        .catch(() => {
+          $q.loading.hide();
+        });
+
       if (id) {
         $q.loading.show();
         exameService("exames/listar")
           .getById(id)
           .then((data) => {
-            form.value.idMedico = data.idMedico;
-            form.value.idPaciente = data.idPaciente;
+            form.value.idMedico = data.medico.idMedico;
+            form.value.idPaciente = data.paciente.idPaciente;
             form.value.dataHoraExame = FormatDate(new Date(data.dataHoraExame));
             form.value.observacao = data.observacao;
             form.value.resultado = data.resultado;
             $q.loading.hide();
+          })
+          .catch(() => {
+            $q.loading.hide();
           });
       }
-
-      $q.loading.show();
-      medicoService("medicos/listar")
-        .list()
-        .then((data) => {
-          medicos.value = data;
-          $q.loading.hide();
-        });
-
-      $q.loading.show();
-      pacienteService("pacientes/listar")
-        .list()
-        .then((data) => {
-          pacientes.value = data;
-          $q.loading.hide();
-        });
     });
 
-    // const getPost = async (id) => {
-    //   try {
-    //     const response = await getById(id)
-    //     form.value = response
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-
-    const onSubmit = async (id) => {
-      // try {
-      //   if (form.value.id) {
-      //     await update(form.value)
-      //   } else {
-      //     await post(form.value)
-      //   }
-      //   $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
-      //   router.push({ name: 'home' })
-      // } catch (error) {
-      //   console.error(error)
-      // }
-
+    const onSubmit = async () => {
       try {
         if (id) {
-          await UseApi("/exames/editar").update(form.value);
+          //editar
+          const data = form.value;
+          data.dataHoraExame = new Date(
+            data.dataHoraExame.split("/").reverse().join("-") + "T00:00:00"
+          ).getTime();
+          data.idExame = id;
+          await UseApi("/exames/editar").update(data);
         } else {
-          await UseApi("/exames/adicionar").post(form.value);
+          //salvar
+          const data = form.value;
+          data.dataHoraExame = new Date(
+            data.dataHoraExame.split("/").reverse().join("-") + "T00:00:00"
+          ).getTime();
+          await UseApi("/exames/adicionar").post(data);
         }
         $q.notify({
           message: "Salvo com sucesso",

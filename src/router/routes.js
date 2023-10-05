@@ -1,5 +1,21 @@
 const routes = [
   {
+    path: "/login",
+    component: () => import("layouts/LoginLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "loginDefault",
+        component: () => import("src/pages/login/Login.vue"),
+      },
+      {
+        path: "/",
+        name: "login",
+        component: () => import("src/pages/login/Login.vue"),
+      },
+    ],
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
@@ -68,17 +84,6 @@ const routes = [
         path: "/usuarios/adicionar",
         name: "usuario-adicionar",
         component: () => import("src/pages/usuario/UsuarioForm.vue"),
-      },
-    ],
-  },
-  {
-    path: "/login",
-    component: () => import("layouts/LoginLayout.vue"),
-    children: [
-      {
-        path: "",
-        name: "login",
-        component: () => import("pages/Login.vue"),
       },
     ],
   },

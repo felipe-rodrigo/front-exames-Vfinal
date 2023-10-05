@@ -19,9 +19,10 @@
           rounded
           v-model="form.crm"
           label="CRM"
-          mask="###############"
+          mask="AA#####-#"
           lazy-rules
           class="col-lg-6 col-xs-12"
+          hint="Formato do CRM AA99999-9"
           :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         />
         <div class="col-12 q-gutter-md">
