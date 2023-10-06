@@ -53,7 +53,7 @@
           rounded
           v-model="form.telefone"
           label="Telefone"
-          mask="(##) #### - ####"
+          mask="(##) ##### - ####"
           hint="Preencha da seguinte maneira: (99) 99999-9999"
           lazy-rules
           class="col-lg-6 col-xs-12"
@@ -64,7 +64,7 @@
           rounded
           v-model="form.cartaoSus"
           label="Cartão SUS"
-          mask=""
+          mask="##############"
           lazy-rules
           class="col-lg-6 col-xs-12"
           :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
@@ -116,13 +116,11 @@ export default defineComponent({
     })
 
     onMounted(async () => {
-      // if (route.params.id) {
-      //   getPaciente(route.params.id)
-      // }
       const id = route?.params?.id
       if (id) {
         $q.loading.show()
         pacienteService('pacientes/listar').getById(id).then((data) => {
+          form.value.idPaciente = id;
           form.value.nome = data.nome
           form.value.dataNascimento = data.dataNascimento
           form.value.endereco = data.endereco
@@ -133,37 +131,12 @@ export default defineComponent({
       }
     })
 
-    // const getPaciente = async (id) => {
-    //   try {
-    //     const response = await getById(id)
-    //     form.value = response
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-
-    const onSubmit = async (id) => {
-      // try {
-      //   if (form.value.id) {
-      //     await update(form.value)
-      //   } else {
-      //     await post(form.value)
-      //   }
-      //   $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
-      //   router.push({ name: 'paciente-listar' })
-      // } catch (error) {
-      //   console.error(error)
-      // }
+    const onSubmit = async () => {
       try {
-        if (id) {
-          // await update(form.value)
-          const { data } = await UseApi('/pacientes/editar').update(form.value)
-          debugger
-          console.log('CONSOLE DO EDITAR', data)
+        if (form.value.idPaciente) {
+          await UseApi("/pacientes/editar").update(form.value);
         } else {
-          // await post(form.value)
-          const data = await UseApi('/pacientes/adicionar').post(form.value)
-          console.log('CONSOLE DO ADICIONAR', data)
+          await UseApi("/pacientes/adicionar").post(form.value);
         }
         $q.notify({ message: 'Salvo com sucesso', icon: 'check', color: 'positive' })
         router.push({ name: 'paciente-listar' })

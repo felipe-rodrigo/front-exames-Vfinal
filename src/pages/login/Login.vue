@@ -58,8 +58,8 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-//import useAuthUser from "src/composables/UseAuthUser";
-//import useNotify from "src/composables/UseNotify";
+import useAuthUser from "src/composables/UseAuthUser";
+import useNotify from "src/composables/UseNotify";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
@@ -75,8 +75,8 @@ export default defineComponent({
 
     const handleLogin = async () => {
       try {
-        //await login(form.value);
-        //notifySuccess("Login successfully!");
+        await login(form.value);
+        notifySuccess("Login successfully!");
         router.push({ name: "home" });
       } catch (error) {
         notifyError(error.message);
