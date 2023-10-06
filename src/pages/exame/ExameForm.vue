@@ -38,6 +38,7 @@
           outlined
           rounded
           v-model="form.dataHoraExame"
+          label="Data de Nascimento"
           mask="##/##/####"
           class="col-lg-6 col-xs-12"
         >
@@ -59,7 +60,7 @@
         </q-input>
 
         <div class="col-lg-12 col-xs-12">
-          <div>Observação:</div>
+          <div class="text-bold">Observação:</div>
           <q-editor
             v-model="form.observacao"
             label="Observação"
@@ -68,7 +69,7 @@
           />
         </div>
         <div class="col-lg-12 col-xs-12">
-          <div>Resultado:</div>
+          <div class="text-bold">Resultado:</div>
           <q-editor
             v-model="form.resultado"
             min-height="5rem"

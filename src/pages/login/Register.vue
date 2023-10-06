@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-form class="row justify-center" @submit.prevent="handleRegister">
+    <q-form class="row justify-center" @submit.prevent="">
       <p class="col-12 text-h5 text-center"> Register </p>
       <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-md">
         <q-input
@@ -51,41 +51,41 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import useAuthUser from 'src/composables/UseAuthUser'
-import useNotify from 'src/composables/UseNotify'
-import { useRouter } from 'vue-router'
+// import useAuthUser from 'src/composables/UseAuthUser'
+// import useNotify from 'src/composables/UseNotify'
+// import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'PageRegister',
 
-  setup () {
-    const router = useRouter()
-    const { register } = useAuthUser()
-    const { notifyError, notifySuccess } = useNotify()
+  // setup () {
+  //   const router = useRouter()
+  //   const { register } = useAuthUser()
+  //   const { notifyError, notifySuccess } = useNotify()
 
-    const form = ref({
-      name: '',
-      email: '',
-      password: ''
-    })
+  //   const form = ref({
+  //     name: '',
+  //     email: '',
+  //     password: ''
+  //   })
 
-    const handleRegister = async () => {
-      try {
-        await register(form.value)
-        notifySuccess()
-        router.push({
-          name: 'email-confirmation',
-          query: { email: form.value.email }
-        })
-      } catch (error) {
-        notifyError(error.message)
-      }
-    }
+  //   const handleRegister = async () => {
+  //     try {
+  //       await register(form.value)
+  //       notifySuccess()
+  //       router.push({
+  //         name: 'email-confirmation',
+  //         query: { email: form.value.email }
+  //       })
+  //     } catch (error) {
+  //       notifyError(error.message)
+  //     }
+  //   }
 
-    return {
-      form,
-      handleRegister
-    }
-  }
+  //   return {
+  //     form,
+  //     handleRegister
+  //   }
+  // }
 })
 </script>

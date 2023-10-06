@@ -20,7 +20,7 @@
     </template>
     </q-table> -->
     <h2 class="my-font" style="font-weight: 400">Dashboard</h2>
-    <span class="">Relação de exames realizados por periodo</span>
+    <span class="text-bold my-font">Relação de exames realizados por periodo</span>
     <q-card></q-card>
     <DashBoard></DashBoard>
   </div>

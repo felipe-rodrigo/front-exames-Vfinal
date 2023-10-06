@@ -2,7 +2,12 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title class="my-font"> Sistema de Gerenciamento de Exames </q-toolbar-title>
+        <q-toolbar-title class="col-12 flex justify-center items-center my-font wrap">
+          <div class="flex-center">
+            SGE - Sistema de Gerenciamento de Exames
+          </div>
+          <img class="" src="../../public/logo_mt_branco.png" alt="Governo de Mato Grosso">
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -28,3 +33,16 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.my-font {
+  font-family: 'unineue';
+};
+.my-font-bold {
+  font-family: 'unineue-bold';
+}
+img {
+  height: 7vh;
+  width: 18vh;
+}
+</style>

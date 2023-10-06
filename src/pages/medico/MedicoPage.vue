@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="">
-    <q-table :rows="lista" :columns="columns" row-key="name" color="amber">
+    <q-table :rows="lista" :columns="columns" row-key="name" color="primary">
       <template v-slot:top>
         <div class="largura-total q-pa-md flex items-center">
           <span class="text-bold my-font text-h4">Medicos</span>

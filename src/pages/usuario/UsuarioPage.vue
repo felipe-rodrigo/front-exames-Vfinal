@@ -5,7 +5,7 @@
       :rows="usuarios"
       :columns="columns"
       row-key="name"
-      color="amber"
+      color="primary"
     >
       <template v-slot:top>
         <span class="text-h4">Usuários</span>

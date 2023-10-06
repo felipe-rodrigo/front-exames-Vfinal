@@ -1,9 +1,8 @@
 <template>
-  <q-page padding>
-    <div class="flex justify-center">
-      <div></div>
-      <q-card class="my-card">
-        <q-form class="row justify-center" @submit.prevent="handleLogin">
+  <q-page padding class="col-12 col-md-12 flex justify-center items-center q-ma-md">
+    <div class="">
+      <q-card class="">
+        <q-form class="flex justify-center items-center row" @submit.prevent="handleLogin">
           <p class="col-12 text-h5 text-center my-font">Login</p>
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-md my-font">
             <q-input
@@ -98,8 +97,8 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<!-- <style>
 .my-card {
-  width: 52%;
+  width: 50%;
 }
-</style>
+</style> -->
