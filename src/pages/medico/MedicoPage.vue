@@ -146,7 +146,7 @@ export default defineComponent({
     const deleteMedico = async (props) => {
       try {
         $q.dialog({
-          title: "Deletar",
+          title: "Remover",
           message: "Certeza que deseja remover?",
           cancel: true,
           persistent: true,
@@ -156,7 +156,7 @@ export default defineComponent({
             props.row.idMedico
           );
           $q.notify({
-            message: "Deletado com sucesso",
+            message: "Removido com sucesso",
             icon: "check",
             color: "positive",
           });
@@ -181,7 +181,9 @@ export default defineComponent({
       search,
       lista: computed(() =>
         medicos.value.filter(
-          (x) => x.nome.includes(search.value) || x.crm.includes(search.value)
+          (x) =>
+            x.nome?.toLowerCase().includes(search.value?.toLowerCase()) ||
+            x.crm?.includes(search.value?.toLowerCase())
         )
       ),
       columns,

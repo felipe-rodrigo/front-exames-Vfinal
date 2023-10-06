@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import useSupabase from 'boot/Supabasex'
+import useSupabase from 'boot/supabase'
 // user is set outside of the useAuthUser function
 // so that it will act as global state and always refer to a single user
 

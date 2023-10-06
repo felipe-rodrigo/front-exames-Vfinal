@@ -19,30 +19,28 @@
       </q-td>
     </template>
     </q-table> -->
-    <h2 class="my-font" style="font-weight: 400;">
-      Dashboard
-    </h2>
+    <h2 class="my-font" style="font-weight: 400">Dashboard</h2>
     <span class="">Relação de exames realizados por periodo</span>
     <q-card></q-card>
-  <DashBoard></DashBoard>
+    <DashBoard></DashBoard>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
-import exameService from 'src/services/exameService'
+import { defineComponent, ref, onMounted } from "vue";
+import exameService from "src/services/exameService";
 // import { useQuasar } from 'quasar'
 // import { useRouter } from 'vue-router'
-import DashBoard from 'src/dashboard/DashBoard.vue'
+import DashBoard from "src/dashboard/DashBoard.vue";
 
 export default defineComponent({
-  name: 'IndexPage',
+  name: "IndexPage",
   components: {
-    DashBoard
+    DashBoard,
   },
-  setup () {
-    const posts = ref([])
-    const { list } = exameService()
+  setup() {
+    const posts = ref([]);
+    const { list } = exameService();
     // const columns = [
     //   { name: 'id', field: 'id', label: 'Id', sortable: true, align: 'left' },
     //   { name: 'title', field: 'title', label: 'Título', sortable: true, align: 'left' },
@@ -53,29 +51,29 @@ export default defineComponent({
     // const router = useRouter()
 
     onMounted(() => {
-      getExames()
-    })
+      getExames();
+    });
 
     const getExames = async () => {
       try {
-        const data = await list()
-        posts.value = data
+        const data = await list();
+        posts.value = data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
+    };
 
     // const handleDeletePost = async (id) => {
     //   try {
     //     $q.dialog({
     //       dark: true,
-    //       title: 'Deletar',
+    //       title: 'Remover',
     //       message: 'Certeza que deseja remover?',
     //       cancel: true,
     //       persistent: true
     //     }).onOk(async () => {
     //       await remove(id)
-    //       $q.notify({ message: 'Deletado com sucesso', icon: 'check', color: 'positive' })
+    //       $q.notify({ message: 'Removido com sucesso', icon: 'check', color: 'positive' })
     //       await getPosts()
     //     })
     //   } catch (error) {
@@ -92,8 +90,8 @@ export default defineComponent({
       // columns,
       // handleDeletePost,
       // handleEditPost,
-      DashBoard
-    }
-  }
-})
+      DashBoard,
+    };
+  },
+});
 </script>

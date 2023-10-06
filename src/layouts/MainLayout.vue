@@ -15,7 +15,7 @@
         </q-toolbar-title>
 
         <div class="q-ma-xs">
-          <img src="/public/logo_mt_branco.png  " alt="logo-govmt" style="height: 7vh; width: 18vh">
+          <img src="/public/logo_mt_branco.png" alt="logo-govmt" style="height: 7vh; width: 18vh">
         </div>
       </q-toolbar>
     </q-header>

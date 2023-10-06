@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-table :rows="exames" :columns="columns" row-key="name" color="amber">
+    <q-table :rows="lista" :columns="columns" row-key="name" color="amber">
       <template v-slot:top>
         <div class="largura-total q-pa-md flex items-center">
           <span class="text-bold my-font text-h4">Exames</span>
@@ -51,12 +51,12 @@
       </template>
       <template v-slot:body-cell-medico="props">
         <q-td>
-          {{ props.row.medico.nome }}
+          {{ props.row.medico?.nome }}
         </q-td>
       </template>
       <template v-slot:body-cell-paciente="props">
         <q-td>
-          {{ props.row.paciente.nome }}
+          {{ props.row.paciente?.nome }}
         </q-td>
       </template>
     </q-table>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 // TODO: modificar as informações para exames
 // import exameService from 'src/services/exameService'
 import { useQuasar } from "quasar";
@@ -113,14 +113,14 @@ export default defineComponent({
       {
         name: "observacao",
         field: "observacao",
-        label: "Médico Responsável",
+        label: "Observação",
         sortable: true,
         align: "left",
       },
       {
         name: "resultado",
         field: "resultado",
-        label: "Médico Responsável",
+        label: "Resultado",
         sortable: true,
         align: "left",
       },
@@ -153,7 +153,7 @@ export default defineComponent({
       try {
         $q.dialog({
           dark: true,
-          title: "Deletar",
+          title: "Remover",
           message: "Certeza que deseja remover?",
           cancel: true,
           persistent: true,
@@ -163,7 +163,7 @@ export default defineComponent({
             props.row.idExame
           );
           $q.notify({
-            message: "Deletado com sucesso",
+            message: "Removido com sucesso",
             icon: "check",
             color: "positive",
           });
@@ -183,8 +183,24 @@ export default defineComponent({
       router.push({ name: "exame-editar", params: { id } });
     };
 
+    const search = ref("");
+
     return {
-      exames,
+      search,
+      lista: computed(() =>
+        exames.value.filter(
+          (x) =>
+            x.medico?.nome
+              ?.toLowerCase()
+              .includes(search.value?.toLowerCase()) ||
+            x.paciente?.nome?.includes(search.value?.toLowerCase()) ||
+            FormatDate(new Date(x.dataHoraExame))
+              .toString()
+              .includes(search.value?.toLowerCase()) ||
+            x.observacao?.includes(search.value?.toLowerCase()) ||
+            x.resultado?.includes(search.value?.toLowerCase())
+        )
+      ),
       columns,
       deleteExame,
       handleEditExame,

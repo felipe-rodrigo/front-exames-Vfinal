@@ -111,7 +111,6 @@ import pacienteService from "src/services/pacienteService";
 export default defineComponent({
   name: "ExameForm",
   setup() {
-    const { post, getById, update } = exameService(); // é realmente usado?
     const $q = useQuasar();
     const router = useRouter();
     const route = useRoute();
@@ -163,8 +162,8 @@ export default defineComponent({
         exameService("exames/listar")
           .getById(id)
           .then((data) => {
-            form.value.idMedico = data.medico.idMedico;
-            form.value.idPaciente = data.paciente.idPaciente;
+            form.value.idMedico = data.medico?.idMedico;
+            form.value.idPaciente = data.paciente?.idPaciente;
             form.value.dataHoraExame = FormatDate(new Date(data.dataHoraExame));
             form.value.observacao = data.observacao;
             form.value.resultado = data.resultado;
