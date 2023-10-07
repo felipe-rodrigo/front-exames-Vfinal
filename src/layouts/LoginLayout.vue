@@ -2,11 +2,11 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title class="col-12 flex justify-center items-center my-font wrap">
-          <div class="flex-center">
-            SGE - Sistema de Gerenciamento de Exames
+        <q-toolbar-title class="col-12 flex justify-center items-center my-font ">
+          <div row overflow class="q-ma-md">
+            SGE - Sistema de Gerenciamento <br> de Exames
           </div>
-          <img class="" src="../../public/logo_mt_branco.png" alt="Governo de Mato Grosso">
+          <img class="q-ma-md" src="../../public/logo_mt_branco.png" alt="Governo de Mato Grosso">
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

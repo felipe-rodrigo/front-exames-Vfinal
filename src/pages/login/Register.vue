@@ -1,29 +1,49 @@
 <template>
   <q-page padding>
-    <q-form class="row justify-center" @submit.prevent="">
-      <p class="col-12 text-h5 text-center"> Register </p>
+    <q-form class="row justify-center" @submit.prevent="handleRegister">
+      <p class="col-12 text-h4 text-center text-bold my-font q-ma-md q-mb-xl">Cadastro de Usuario</p>
       <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-md">
         <q-input
-          label="Name"
+          outlined
+          rounded
+          label="Nome do Usuário"
           v-model="form.name"
           lazy-rules
-          :rules="[val => (val && val.length > 0) || 'Name is required']"
+          :rules="[val => (val && val.length > 0) || 'Usuário Necessário']"
         />
 
         <q-input
+          outlined
+          rounded
           label="Email"
           v-model="form.email"
           lazy-rules
-          :rules="[val => (val && val.length > 0) || 'Email is required']"
+          :rules="[val => (val && val.length > 0) || 'Email necessário']"
+          type="email"
+        />
+        <q-input
+          outlined
+          rounded
+          label="Confirme o Email"
+          v-model="form.emailConfirm"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Email necessário']"
           type="email"
         />
 
-        <q-input
-          label="Password"
-          v-model="form.password"
-          lazy-rules
-          :rules="[val => (val && val.length >= 6) || 'Password is required and 6 characters']"
-        />
+        <q-input outlined
+        rounded label="Senha" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Digite sua senha"
+        :rules="[val => (val && val.length > 0) || 'Senha necessária']"
+        >
+          <template v-slot:append>
+            <q-icon
+              label="Confirme sua senha"
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <div class="full-width q-pt-md q-gutter-y-sm">
           <q-btn
@@ -52,40 +72,42 @@
 <script>
 import { defineComponent, ref } from 'vue'
 // import useAuthUser from 'src/composables/UseAuthUser'
-// import useNotify from 'src/composables/UseNotify'
-// import { useRouter } from 'vue-router'
+import useNotify from 'src/composables/UseNotify'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'PageRegister',
 
-  // setup () {
-  //   const router = useRouter()
-  //   const { register } = useAuthUser()
-  //   const { notifyError, notifySuccess } = useNotify()
+  setup () {
+    const router = useRouter()
+    // const { register } = useAuthUser()
+    const { notifyError, notifySuccess } = useNotify()
 
-  //   const form = ref({
-  //     name: '',
-  //     email: '',
-  //     password: ''
-  //   })
+    const form = ref({
+      name: '',
+      email: '',
+      emailConfirm: '',
+      password: ''
+    })
 
-  //   const handleRegister = async () => {
-  //     try {
-  //       await register(form.value)
-  //       notifySuccess()
-  //       router.push({
-  //         name: 'email-confirmation',
-  //         query: { email: form.value.email }
-  //       })
-  //     } catch (error) {
-  //       notifyError(error.message)
-  //     }
-  //   }
+    const handleRegister = async () => {
+      try {
+        // await register(form.value)
+        notifySuccess()
+        router.push({
+          name: 'login'
+          // query: { email: form.value.email }
+        })
+      } catch (error) {
+        notifyError(error.message)
+      }
+    }
 
-  //   return {
-  //     form,
-  //     handleRegister
-  //   }
-  // }
+    return {
+      form,
+      handleRegister,
+      isPwd: ref(true)
+    }
+  }
 })
 </script>

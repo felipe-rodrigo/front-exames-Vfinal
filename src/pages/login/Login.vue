@@ -1,11 +1,14 @@
 <template>
-  <q-page padding class="col-12 col-md-12 flex justify-center items-center q-ma-md">
-    <div class="">
-      <q-card class="">
-        <q-form class="flex justify-center items-center row" @submit.prevent="handleLogin">
-          <p class="col-12 text-h5 text-center my-font">Login</p>
-          <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-md my-font">
-            <q-input
+  <q-page style="background-image: ;" class="col-12 col-md-6 justify-center items-center q-ma-md">
+    <div class="col col-md-6">
+        <q-form class="justify-center items-center row" @submit.prevent="handleLogin">
+          <p class="col-12 text-h3 text-center text-bold my-font q-ma-xs">Exames - MT</p>
+          <p class="col-12 text-h4 text-center text-bold my-font q-ma-md q-mt-xl q-mb-xl">Login</p>
+          <div class="flex justify-center items-center col-md-4 col-sm-6 col-xs-10 my-font">
+            <div class="full-width">
+              <q-input
+              outlined
+              rounded
               label="Usuario"
               v-model="form.usuario"
               lazy-rules
@@ -15,54 +18,48 @@
               type="usuario"
             />
 
-            <q-input
-              label="Password"
-              v-model="form.password"
-              lazy-rules
-              type="password"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Senha é obrigatória',
-              ]"
-            />
+            <q-input outlined
+            rounded label="Senha" style="font-family: Arial, Helvetica, sans-serif;" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Digite sua senha">
+              <template v-slot:append>
+                <q-icon
+                  label="Digite sua senha"
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+            </q-input>
 
-            <div class="full-width q-pt-md">
+
+
+            <div class="row flex justify-center items-center q-pa-md q-pb-xl">
               <q-btn
                 label="Login"
                 color="primary"
-                class="full-width"
+                class="full-width q-ma-md"
                 rounded
                 type="submit"
               />
-            </div>
-            <div class="full-width q-gutter-y-sm">
               <q-btn
                 label="Cadastrar-se"
                 color="primary"
                 rounded
                 outline
                 class="full-width"
-                to="/register"
-              />
-              <q-btn
-                label="Forgot Password ?"
-                color="primary"
-                class="full-width"
-                flat
-                :to="{ name: 'forgot-password' }"
-                size="sm"
+                :to="{ name: 'register' }"
               />
             </div>
           </div>
+          </div>
         </q-form>
-      </q-card>
     </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref } from "vue";
 //import useAuthUser from "src/composables/UseAuthUser";
-//import useNotify from "src/composables/UseNotify";
+import useNotify from "src/composables/UseNotify";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
@@ -70,7 +67,7 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-
+    const { notifyError, notifySuccess } = useNotify()
     // const { login } = useAuthUser();
 
     const form = ref({
@@ -81,7 +78,7 @@ export default defineComponent({
     const handleLogin = async () => {
       try {
         // await login(form.value);
-        // notifySuccess("Login successfully!");
+        notifySuccess("Login Efetuado!");
         router.push({ name: "home" });
       } catch (error) {
         notifyError(error.message);
@@ -92,6 +89,8 @@ export default defineComponent({
       form,
       handleLogin,
       //useAuthUser,
+
+      isPwd: ref(true)
     };
   },
 });

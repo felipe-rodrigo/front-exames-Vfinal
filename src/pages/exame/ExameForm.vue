@@ -38,7 +38,7 @@
           outlined
           rounded
           v-model="form.dataHoraExame"
-          label="Data de Nascimento"
+          label="Data do Exame"
           mask="##/##/####"
           class="col-lg-6 col-xs-12"
         >

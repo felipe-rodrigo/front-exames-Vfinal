@@ -16,7 +16,7 @@ const routes = [
       {
         path: "/register",
         name: "register",
-        component: () => import("pages/Register.vue"),
+        component: () => import("../pages/login/Register.vue"),
       },
       {
         path: "email-confirmation",
